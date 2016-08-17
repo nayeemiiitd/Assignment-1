@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity
     private TextView question_number,question_text;
     private int number,question_counter=1;
     private Boolean result;
+    private int button_check=0;
 //    private final String TAG = "Quiz";
 
     @Override
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);  //for incorrect answer phone will vibrate
                         result = check(number);
+                        button_check++;
                         if(result)
                         {
                             Toast.makeText(MainActivity.this, "Correct Answer",Toast.LENGTH_SHORT).show();
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     result = check(number);
+                    button_check++;
                     if(result)
                     {
                         Toast.makeText(MainActivity.this, "Incorrect Answer",Toast.LENGTH_SHORT).show();
@@ -101,13 +104,22 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v)
                 {
-                    true_button.setEnabled(true);
-                    false_button.setEnabled(true);
-                    question_text.setTextColor(Color.BLACK);
-                    number = generateNumber();
-                    set_question_number(question_counter);
-                    question_counter++;
-                    set_question(number);
+                    if(button_check>0)
+                    {
+                        true_button.setEnabled(true);
+                        false_button.setEnabled(true);
+                        question_text.setTextColor(Color.BLACK);
+                        number = generateNumber();
+                        set_question_number(question_counter);
+                        question_counter++;
+                        set_question(number);
+                        button_check=0;
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "First Select an option",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         );
